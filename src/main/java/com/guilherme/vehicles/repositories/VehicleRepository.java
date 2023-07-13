@@ -1,4 +1,8 @@
 package com.guilherme.vehicles.repositories;
 
-public class VehicleRepository {
+import com.guilherme.vehicles.entities.Vehicles;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface VehicleRepository extends JpaRepository<Vehicles, Long> {
+
 }
