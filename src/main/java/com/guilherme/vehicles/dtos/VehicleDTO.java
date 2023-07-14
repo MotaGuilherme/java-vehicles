@@ -1,5 +1,7 @@
 package com.guilherme.vehicles.dtos;
 
+import com.guilherme.vehicles.entities.Vehicles;
+
 public class VehicleDTO {
 
     private Long id;
@@ -12,11 +14,11 @@ public class VehicleDTO {
 
     }
 
-    public VehicleDTO(Long id, String name, String brand, String model) {
-        this.id = id;
-        this.name = name;
-        this.brand = brand;
-        this.model = model;
+    public VehicleDTO(Vehicles obj) {
+        id = obj.getId();
+        name = obj.getName();
+        brand = obj.getBrand();
+        model = obj.getModel();
         //this.imgCar = imgCar;
     }
 
