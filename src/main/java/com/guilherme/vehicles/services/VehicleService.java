@@ -6,6 +6,8 @@ import com.guilherme.vehicles.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VehicleService {
 
@@ -17,6 +19,11 @@ public class VehicleService {
         obj.setId(null);
         return vehicleRepository.save(obj);
     }
+
+    public List<Vehicles> findAll() {
+        return vehicleRepository.findAll();
+    }
+
     public Vehicles fromDTO(VehicleDTO objDto) {
         return new Vehicles(
                 objDto.getId(),

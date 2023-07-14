@@ -16,7 +16,7 @@ public class Vehicles {
 //    @Column(columnDefinition = "BYTEA")
 //    private Byte imgCar;
 
-    public Vehicles(Long id, String name) {
+    public Vehicles() {
 
     }
 
