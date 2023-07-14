@@ -12,6 +12,7 @@ public class Vehicles {
     private String name;
     private String brand;
     private String model;
+    private Integer price;
 
 //    @Column(columnDefinition = "BYTEA")
 //    private Byte imgCar;
@@ -20,11 +21,13 @@ public class Vehicles {
 
     }
 
-    public Vehicles(Long id, String name, String brand, String model) {
+    public Vehicles(Long id, String name, String brand, String model, Integer price) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.model = model;
+        this.price = price;
+
        // this.imgCar = imgCar;
     }
 
@@ -60,6 +63,13 @@ public class Vehicles {
         this.model = model;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 //    public Byte getImgCar() {
 //        return imgCar;
 //    }
