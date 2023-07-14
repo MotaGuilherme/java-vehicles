@@ -8,7 +8,9 @@ public class VehicleDTO {
     private String name;
     private String brand;
     private String model;
-   // private Byte imgCar;
+    private Integer price;
+
+    // private Byte imgCar;
 
     public VehicleDTO() {
 
@@ -19,6 +21,7 @@ public class VehicleDTO {
         name = obj.getName();
         brand = obj.getBrand();
         model = obj.getModel();
+        price = obj.getPrice();
         //this.imgCar = imgCar;
     }
 
@@ -54,7 +57,14 @@ public class VehicleDTO {
         this.model = model;
     }
 
-//    public Byte getImgCar() {
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+    //    public Byte getImgCar() {
 //        return imgCar;
 //    }
 //
