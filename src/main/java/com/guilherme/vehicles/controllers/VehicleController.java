@@ -36,4 +36,18 @@ public class VehicleController {
         return ResponseEntity.ok().body(listDto);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        vehicleService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody VehicleDTO objDto, @PathVariable Long id) {
+        Vehicles obj = vehicleService.fromDTO(objDto);
+        obj.setId(id);
+        vehicleService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
+
 }
