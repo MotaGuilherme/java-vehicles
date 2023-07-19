@@ -1,39 +1,43 @@
 package com.guilherme.vehicles.controllers;
 
-import com.guilherme.vehicles.dtos.VehicleDTO;
 import com.guilherme.vehicles.entities.Vehicles;
 import com.guilherme.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/vehicles")
+@CrossOrigin("*")
 public class VehicleController {
 
     @Autowired
     private VehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody VehicleDTO objDto) {
-        Vehicles obj = vehicleService.fromDTO(objDto);
-        obj = vehicleService.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
+        public ResponseEntity<Vehicles> insert (@RequestBody Vehicles obj) {
+            obj = vehicleService.insert(obj);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(obj.getId()).toUri();
+            return ResponseEntity.created(uri).body(obj);
+        }
+
 
     @GetMapping
-    public ResponseEntity<List<VehicleDTO>> findAll() {
+    public ResponseEntity <List<Vehicles>> findAll() {
         List<Vehicles> list = vehicleService.findAll();
-        List<VehicleDTO> listDto = list.stream().map(VehicleDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(list);
+    }
 
-        return ResponseEntity.ok().body(listDto);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Vehicles> findByid(@PathVariable Long id) {
+        Vehicles list = vehicleService.findBtyId(id);
+        return ResponseEntity.ok().body(list);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -43,11 +47,10 @@ public class VehicleController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@RequestBody VehicleDTO objDto, @PathVariable Long id) {
-        Vehicles obj = vehicleService.fromDTO(objDto);
-        obj.setId(id);
-        vehicleService.update(obj);
-        return ResponseEntity.noContent().build();
+    @Transactional
+    public ResponseEntity<Vehicles> update(@PathVariable Long id, @RequestBody Vehicles obj) {
+        vehicleService.update(id, obj);
+        return ResponseEntity.ok().body(obj);
     }
 
 }

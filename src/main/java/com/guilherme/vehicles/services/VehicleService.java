@@ -1,10 +1,12 @@
 package com.guilherme.vehicles.services;
 
-import com.guilherme.vehicles.dtos.VehicleDTO;
 import com.guilherme.vehicles.entities.Vehicles;
 import com.guilherme.vehicles.repositories.VehicleRepository;
+import com.guilherme.vehicles.services.exceptions.DataIntegrityException;
 import com.guilherme.vehicles.services.exceptions.ObjectNotFoundException;
+import com.guilherme.vehicles.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +28,22 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
-    public Vehicles update(Vehicles obj) {
-        Vehicles newObj = findVehicleId(obj.getId());
-        updateData(newObj, obj);
-        return vehicleRepository.save(newObj);
+    public Vehicles findBtyId(Long id) {
+        return vehicleRepository.getReferenceById(id);
+    }
+
+    public Vehicles update(Long id, Vehicles obj) {
+        findVehicleId(id);
+        try {
+            Vehicles entity = vehicleRepository.getReferenceById(id);
+            updateData(entity, obj);
+            return vehicleRepository.save(entity);
+
+        } catch (ObjectNotFoundException e) {
+            throw new ObjectNotFoundException("Its not possible delete a vehicle because its not found!" + id);
+        }
+
+
     }
 
     public void delete(Long id) {
@@ -38,6 +52,8 @@ public class VehicleService {
             vehicleRepository.deleteById(id);
         } catch (ObjectNotFoundException e) {
             throw new ObjectNotFoundException("Its not possible delete a vehicle because its not found!");
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Its not possible delete a vehicle thats have a image!");
         }
     }
 
@@ -48,20 +64,10 @@ public class VehicleService {
                 "Not found Object! Id: " + id ));
     }
 
-    public Vehicles fromDTO(VehicleDTO objDto) {
-        return new Vehicles(
-                objDto.getId(),
-                objDto.getName(),
-                objDto.getBrand(),
-                objDto.getModel(),
-                objDto.getPrice());
-                //objDto.getImgCar());
-    }
-
-    private void updateData(Vehicles newObj, Vehicles obj) {
-        newObj.setName(obj.getName());
-        newObj.setBrand(obj.getBrand());
-        newObj.setModel(obj.getModel());
-        newObj.setPrice(obj.getPrice());
+    private void updateData(Vehicles entity, Vehicles obj) {
+        entity.setName(obj.getName());
+        entity.setBrand(obj.getBrand());
+        entity.setModel(obj.getModel());
+        entity.setPrice(obj.getPrice());
     }
 }
