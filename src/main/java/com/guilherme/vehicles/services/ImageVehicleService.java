@@ -5,11 +5,15 @@ import com.guilherme.vehicles.entities.Vehicles;
 import com.guilherme.vehicles.repositories.ImageVehicleRepository;
 import com.guilherme.vehicles.repositories.VehicleRepository;
 import com.guilherme.vehicles.services.exceptions.ObjectNotFoundException;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,6 +54,21 @@ public class ImageVehicleService {
 
     public List<ImageVehicle> findAll() {
         return imageVehicleRepository.findAll();
+    }
+
+    public List<ImageVehicle> findImage(Long id) {
+        List<ImageVehicle> listImages = imageVehicleRepository.findImageVehicleById(id);
+
+        for (ImageVehicle imageVehicle : listImages) {
+            try(InputStream in = new FileInputStream("c:/images/"+ imageVehicle.getName())) {
+                imageVehicle.setArquivo(IOUtils.toByteArray(in));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return listImages;
     }
 
     public ImageVehicle update(ImageVehicle obj) {

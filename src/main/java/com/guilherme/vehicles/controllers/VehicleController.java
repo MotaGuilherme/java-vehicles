@@ -1,5 +1,6 @@
 package com.guilherme.vehicles.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guilherme.vehicles.entities.Vehicles;
 import com.guilherme.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/vehicles")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000/#")
 public class VehicleController {
 
     @Autowired

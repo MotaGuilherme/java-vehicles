@@ -20,14 +20,15 @@ public class ImageVehicleController {
     @Autowired
     private ImageVehicleService imageVehicleService;
 
-    @PostMapping
-        public ImageVehicle insert (
+    @RequestMapping(method = RequestMethod.POST)
+        public ResponseEntity <ImageVehicle> insert (
                 @RequestParam("idVehicle")
                 Long idVehicle,
                 @RequestParam("file")
                 MultipartFile file) {
 
-            return imageVehicleService.insert(idVehicle, file);
+            ImageVehicle img = imageVehicleService.insert(idVehicle, file);
+            return ResponseEntity.ok().body(img);
         }
 
 
@@ -37,18 +38,29 @@ public class ImageVehicleController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity <ImageVehicle> findById(@PathVariable Long id) {
+        ImageVehicle list = imageVehicleService.findVehicleId(id);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "img/{id}")
+    public ResponseEntity <List<ImageVehicle>> findImages(@PathVariable("id") Long idVehicle) {
+        List<ImageVehicle> list = imageVehicleService.findImage(idVehicle);
+        return ResponseEntity.ok().body(list);
+    }
+
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         imageVehicleService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-//    @PutMapping(value = "/{id}")
-//    public ResponseEntity<Void> update(@RequestBody VehicleDTO objDto, @PathVariable Long id) {
-//        ImageVehicle obj = imageVehicleService.fromDTO(objDto);
-//        obj.setId(id);
-//        vehicleService.update(obj);
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ImageVehicle> update(@RequestBody ImageVehicle  obj, @PathVariable Long id) {
+        ImageVehicle update = imageVehicleService.update(obj);
+        return ResponseEntity.ok().body(update);
+    }
 
 }

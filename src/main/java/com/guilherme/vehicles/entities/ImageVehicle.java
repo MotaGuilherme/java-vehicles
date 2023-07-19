@@ -17,6 +17,9 @@ public class ImageVehicle {
     @JoinColumn(name = "idVehicle")
     private Vehicles vehicles;
 
+    @Transient
+    private byte[] arquivo;
+
     public ImageVehicle() {
 
     }
@@ -49,5 +52,13 @@ public class ImageVehicle {
 
     public void setVehicles(Vehicles vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public byte[] getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(byte[] arquivo) {
+        this.arquivo = arquivo;
     }
 }

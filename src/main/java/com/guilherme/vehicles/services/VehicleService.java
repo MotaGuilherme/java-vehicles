@@ -1,10 +1,13 @@
 package com.guilherme.vehicles.services;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guilherme.vehicles.entities.Vehicles;
 import com.guilherme.vehicles.repositories.VehicleRepository;
 import com.guilherme.vehicles.services.exceptions.DataIntegrityException;
 import com.guilherme.vehicles.services.exceptions.ObjectNotFoundException;
 import com.guilherme.vehicles.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

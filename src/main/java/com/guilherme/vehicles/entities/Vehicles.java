@@ -3,10 +3,12 @@ package com.guilherme.vehicles.entities;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "tb_vehicles")
 @EqualsAndHashCode(of = "id")
+@Proxy(lazy = false)
 public class Vehicles {
 
     @Id
